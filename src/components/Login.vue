@@ -4,12 +4,61 @@
       <div id="login-center">
         <img src="../assets/logo.png" alt>
       </div>
+      <el-form :model="loginForm" :rules="loginFormRules" ref="loginFormRef">
+        <el-form-item prop="username">
+          <el-input v-model="loginForm.username">
+            <i slot="prefix" class="iconfont icon-user"></i>
+          </el-input>
+        </el-form-item>
+        <el-form-item prop="password">
+          <el-input v-model="loginForm.password"  type="password">
+            <i slot="prefix" class="iconfont icon-3702mima"></i>
+          </el-input>
+        </el-form-item>
+        <el-col :push="15">
+          <el-button type="primary" @click="login">登录</el-button>
+          <el-button type="info" @click="reset">重置</el-button>
+        </el-col>
+      </el-form>
     </div>
   </div>
 </template>
 
 <script>
-export default {}
+export default {
+  methods: {
+    reset () {
+      this.$refs.loginFormRef.resetFields()
+    },
+    login () {
+      this.$refs.loginFormRef.validate(async valid => {
+        if (valid === true) {
+          const { data: res } = await this.$http.post('/login', this.loginForm)
+          if (res.meta.status !== 200) {
+            return this.$message.error('用户名或密码不存在')
+          }
+          window.sessionStorage.setItem('token', res.data.token)
+          this.$router.push('/home')
+        }
+      })
+    }
+  },
+  data () {
+    return {
+      loginFormRules: {
+        username: [
+          // required:非空  message:错误提示  trigger:触发校验机制
+          { required: true, message: '请输入用户名称', trigger: 'blur' }
+        ],
+        password: [{ required: true, message: '请输入密码', trigger: 'blur' }]
+      },
+      loginForm: {
+        username: '',
+        password: ''
+      }
+    }
+  }
+}
 </script>
 
 <style lang="less" scoped>
@@ -26,6 +75,13 @@ export default {}
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
+    .el-form {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      padding: 20px;
+      box-sizing: border-box;
+    }
     #login-center {
       width: 130px;
       height: 130px;
