@@ -8,7 +8,7 @@
       <el-button type="info" @click="logout">退出</el-button>
     </el-header>
     <el-container>
-      <el-aside :width="isshow?'65px':'200px'">
+      <el-aside :style="{width:isshow?'65px':'200px'}">
         <div class="toggle_bar" @click="isshow=!isshow" :style="{width:isshow?'65px':'200px'}">|||</div>
         <el-menu
           background-color="#333744"
@@ -17,10 +17,11 @@
           :unique-opened="true"
           :collapse-transition="false"
           :collapse="isshow"
+          :router="true"
         >
           <el-submenu
             :index="item.path"
-            :width="isshow?'65px':'200px'"
+            :style="{width:isshow?'65px':'200px'}"
             v-for="(item , k) in Menulist "
             :key="item.id"
           >
@@ -44,11 +45,11 @@
 
 <script>
 export default {
-  created () {
+  created() {
     this.getmenulist()
   },
   methods: {
-    logout () {
+    logout() {
       this.$confirm('确定要退出吗', '退出', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
@@ -60,7 +61,7 @@ export default {
         })
         .catch(() => {})
     },
-    async getmenulist () {
+    async getmenulist() {
       const { data: dt } = await this.$http.get('/menus')
       // console.log(dt)
       if (dt.meta.status === 200) {
@@ -69,7 +70,7 @@ export default {
       }
     }
   },
-  data () {
+  data() {
     return {
       iconlist: ['users', 'tijikongjian', 'shangpin', 'danju', 'baobiao'],
       Menulist: [],

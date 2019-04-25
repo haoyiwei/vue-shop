@@ -13,7 +13,7 @@ axios.defaults.baseURL = 'http://127.0.0.1:11333/api/private/v1/'
 
 // axios的请求拦截器
 axios.interceptors.request.use(
-  function (config) {
+  function(config) {
     // 给axios配置token
     var token = window.sessionStorage.getItem('token')
     // 判断 token s是否存在
@@ -23,7 +23,7 @@ axios.interceptors.request.use(
     }
     return config
   },
-  function (error) {
+  function(error) {
     return Promise.reject(error)
   }
 )

@@ -11,7 +11,7 @@
           </el-input>
         </el-form-item>
         <el-form-item prop="password">
-          <el-input v-model="loginForm.password"  type="password">
+          <el-input v-model="loginForm.password" type="password">
             <i slot="prefix" class="iconfont icon-3702mima"></i>
           </el-input>
         </el-form-item>
@@ -27,10 +27,10 @@
 <script>
 export default {
   methods: {
-    reset () {
+    reset() {
       this.$refs.loginFormRef.resetFields()
     },
-    login () {
+    login() {
       this.$refs.loginFormRef.validate(async valid => {
         if (valid === true) {
           const { data: res } = await this.$http.post('/login', this.loginForm)
@@ -43,7 +43,7 @@ export default {
       })
     }
   },
-  data () {
+  data() {
     return {
       loginFormRules: {
         username: [
